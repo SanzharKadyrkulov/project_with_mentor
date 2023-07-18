@@ -14,6 +14,11 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Button, Menu, MenuItem } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { useFoodContext } from "../contexts/FoodContext";
+import { useNavigate } from "react-router-dom";
 
 const ExpandMore = styled((props) => {
 	const { expand, ...other } = props;
@@ -27,6 +32,17 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function FoodItem({ item }) {
+	const { deleteDish } = useFoodContext();
+	const navigate = useNavigate();
+
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const open = Boolean(anchorEl);
+	const handleClick = (event) => {
+		setAnchorEl(event.currentTarget);
+	};
+	const handleClose = () => {
+		setAnchorEl(null);
+	};
 	const [expanded, setExpanded] = React.useState(false);
 
 	const handleExpandClick = () => {
@@ -42,9 +58,37 @@ export default function FoodItem({ item }) {
 					</Avatar>
 				}
 				action={
-					<IconButton aria-label="settings">
-						<MoreVertIcon />
-					</IconButton>
+					<>
+						<IconButton onClick={handleClick} aria-label="settings">
+							<MoreVertIcon />
+						</IconButton>
+						<Menu
+							id="basic-menu"
+							anchorEl={anchorEl}
+							open={open}
+							onClose={handleClose}
+							MenuListProps={{
+								"aria-labelledby": "basic-button",
+							}}
+						>
+							<MenuItem
+								component={Button}
+								endIcon={<DeleteIcon />}
+								sx={{ textTransform: "capitalize", color: "red" }}
+								onClick={() => deleteDish(item.id)}
+							>
+								Delete
+							</MenuItem>
+							<MenuItem
+								component={Button}
+								endIcon={<EditIcon />}
+								sx={{ textTransform: "capitalize", width: "100%" }}
+								onClick={() => navigate(`/edit/${item.id}`)}
+							>
+								Edit
+							</MenuItem>
+						</Menu>
+					</>
 				}
 				title={item.title}
 				subheader={item.category}

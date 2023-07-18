@@ -5,6 +5,7 @@ import HomePage from "../pages/HomePage";
 import NotFoundPage from "../pages/NotFoundPage";
 import MenuPage from "../pages/MenuPage";
 import AddFoodPage from "../pages/AddFoodPage";
+import EditFoodPage from "../pages/EditFoodPage";
 
 const MainRoutes = () => {
 	return (
@@ -13,6 +14,7 @@ const MainRoutes = () => {
 				<Route path="/" element={<HomePage />} />
 				<Route path="/menu" element={<MenuPage />} />
 				<Route path="/add" element={<AddFoodPage />} />
+				<Route path="/edit/:id" element={<EditFoodPage />} />
 			</Route>
 
 			<Route path="*" element={<NotFoundPage />} />

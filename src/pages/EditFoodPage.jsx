@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -8,13 +8,16 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useFoodContext } from "../contexts/FoodContext";
+import { useNavigate, useParams } from "react-router-dom";
 
 // TODO remove, this demo shouldn't need to reset the theme.
 
 const defaultTheme = createTheme();
 
-export default function AddFoodPage() {
-	const { addDish } = useFoodContext();
+export default function EditFoodPage() {
+	const { dish, getOneDish, editDish } = useFoodContext();
+	const { id } = useParams();
+	const navigate = useNavigate();
 	const [formValue, setFormValue] = useState({
 		title: "",
 		composition: "",
@@ -22,6 +25,15 @@ export default function AddFoodPage() {
 		image: "",
 		category: "",
 	});
+	useEffect(() => {
+		getOneDish(id);
+	}, []);
+
+	useEffect(() => {
+		if (dish) {
+			setFormValue(dish);
+		}
+	}, [dish]);
 
 	function handleChange(e) {
 		setFormValue({
@@ -35,22 +47,15 @@ export default function AddFoodPage() {
 		if (
 			!formValue.title.trim() ||
 			!formValue.composition.trim() ||
-			!formValue.price.trim() ||
+			!formValue.price ||
 			!formValue.image.trim() ||
 			!formValue.category.trim()
 		) {
 			return;
 		}
 
-		addDish({ ...formValue, price: +formValue.price });
-
-		setFormValue({
-			title: "",
-			composition: "",
-			price: "",
-			image: "",
-			category: "",
-		});
+		editDish(id, { ...formValue, price: +formValue.price });
+		navigate(-1);
 	};
 
 	return (
@@ -66,7 +71,7 @@ export default function AddFoodPage() {
 					}}
 				>
 					<Typography component="h1" variant="h5">
-						New Dish
+						Edit Dish
 					</Typography>
 					<Box
 						component="form"
@@ -137,7 +142,7 @@ export default function AddFoodPage() {
 							variant="contained"
 							sx={{ mt: 3, mb: 2 }}
 						>
-							Add New Dish
+							Save Changes
 						</Button>
 					</Box>
 				</Box>
