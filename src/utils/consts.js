@@ -4,3 +4,5 @@ export const ACTIONS = {
 	dishes: "dishes",
 	dish: "dish",
 };
+
+export const ADMINS = ["kadyrkulov.980@gmail.com"];

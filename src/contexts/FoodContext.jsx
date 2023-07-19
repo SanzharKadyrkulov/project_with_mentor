@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useContext, useReducer } from "react";
 import { ACTIONS, API } from "../utils/consts";
+import { notify } from "../components/Toastify";
 
 const foodContext = createContext();
 
@@ -35,7 +36,7 @@ const FoodContext = ({ children }) => {
 				payload: data,
 			});
 		} catch (e) {
-			console.log(e);
+			notify(`${e.response.status}: ${e.response.statusText}`, "error");
 		}
 	}
 
@@ -48,15 +49,16 @@ const FoodContext = ({ children }) => {
 				payload: data,
 			});
 		} catch (e) {
-			console.log(e);
+			notify(`${e.response.status}: ${e.response.statusText}`, "error");
 		}
 	}
 
 	async function addDish(newDish) {
 		try {
 			await axios.post(API, newDish);
+			notify("Dish added successfully");
 		} catch (e) {
-			console.log(e);
+			notify(`${e.response.status}: ${e.response.statusText}`, "error");
 		}
 	}
 
@@ -64,16 +66,18 @@ const FoodContext = ({ children }) => {
 		try {
 			await axios.delete(`${API}/${id}`);
 			getDishes();
+			notify("Successfully deleted");
 		} catch (e) {
-			console.log(e);
+			notify(`${e.response.status}: ${e.response.statusText}`, "error");
 		}
 	}
 
 	async function editDish(id, newData) {
 		try {
 			await axios.patch(`${API}/${id}`, newData);
+			notify("Successfully saved changes");
 		} catch (e) {
-			console.log(e);
+			notify(`${e.response.status}: ${e.response.statusText}`, "error");
 		}
 	}
 

@@ -6,16 +6,27 @@ import NotFoundPage from "../pages/NotFoundPage";
 import MenuPage from "../pages/MenuPage";
 import AddFoodPage from "../pages/AddFoodPage";
 import EditFoodPage from "../pages/EditFoodPage";
+import AuthPage from "../pages/AuthPage";
+import ProtectedRoute from "./ProtectedRoute";
+import AdminProtectedRoute from "./AdminProtectedRoute";
 
 const MainRoutes = () => {
 	return (
 		<Routes>
 			<Route element={<MainLayout />}>
 				<Route path="/" element={<HomePage />} />
-				<Route path="/menu" element={<MenuPage />} />
-				<Route path="/add" element={<AddFoodPage />} />
-				<Route path="/edit/:id" element={<EditFoodPage />} />
+
+				<Route element={<ProtectedRoute />}>
+					<Route path="/menu" element={<MenuPage />} />
+				</Route>
+
+				<Route element={<AdminProtectedRoute />}>
+					<Route path="/add" element={<AddFoodPage />} />
+					<Route path="/edit/:id" element={<EditFoodPage />} />
+				</Route>
 			</Route>
+
+			<Route path="/auth" element={<AuthPage />} />
 
 			<Route path="*" element={<NotFoundPage />} />
 		</Routes>

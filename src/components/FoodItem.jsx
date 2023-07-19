@@ -19,6 +19,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { useFoodContext } from "../contexts/FoodContext";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const ExpandMore = styled((props) => {
 	const { expand, ...other } = props;
@@ -33,6 +34,7 @@ const ExpandMore = styled((props) => {
 
 export default function FoodItem({ item }) {
 	const { deleteDish } = useFoodContext();
+	const { isAdmin } = useAuthContext();
 	const navigate = useNavigate();
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -58,37 +60,39 @@ export default function FoodItem({ item }) {
 					</Avatar>
 				}
 				action={
-					<>
-						<IconButton onClick={handleClick} aria-label="settings">
-							<MoreVertIcon />
-						</IconButton>
-						<Menu
-							id="basic-menu"
-							anchorEl={anchorEl}
-							open={open}
-							onClose={handleClose}
-							MenuListProps={{
-								"aria-labelledby": "basic-button",
-							}}
-						>
-							<MenuItem
-								component={Button}
-								endIcon={<DeleteIcon />}
-								sx={{ textTransform: "capitalize", color: "red" }}
-								onClick={() => deleteDish(item.id)}
+					isAdmin() && (
+						<>
+							<IconButton onClick={handleClick} aria-label="settings">
+								<MoreVertIcon />
+							</IconButton>
+							<Menu
+								id="basic-menu"
+								anchorEl={anchorEl}
+								open={open}
+								onClose={handleClose}
+								MenuListProps={{
+									"aria-labelledby": "basic-button",
+								}}
 							>
-								Delete
-							</MenuItem>
-							<MenuItem
-								component={Button}
-								endIcon={<EditIcon />}
-								sx={{ textTransform: "capitalize", width: "100%" }}
-								onClick={() => navigate(`/edit/${item.id}`)}
-							>
-								Edit
-							</MenuItem>
-						</Menu>
-					</>
+								<MenuItem
+									component={Button}
+									endIcon={<DeleteIcon />}
+									sx={{ textTransform: "capitalize", color: "red" }}
+									onClick={() => deleteDish(item.id)}
+								>
+									Delete
+								</MenuItem>
+								<MenuItem
+									component={Button}
+									endIcon={<EditIcon />}
+									sx={{ textTransform: "capitalize", width: "100%" }}
+									onClick={() => navigate(`/edit/${item.id}`)}
+								>
+									Edit
+								</MenuItem>
+							</Menu>
+						</>
+					)
 				}
 				title={item.title}
 				subheader={item.category}

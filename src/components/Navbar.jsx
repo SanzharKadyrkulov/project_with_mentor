@@ -17,6 +17,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Button } from "@mui/material";
 import { Link, NavLink } from "react-router-dom";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
@@ -63,6 +64,9 @@ const pages = [
 		title: "Menu",
 		link: "/menu",
 	},
+];
+
+const adminPages = [
 	{
 		title: "New Food",
 		link: "/add",
@@ -70,6 +74,16 @@ const pages = [
 ];
 
 export default function Navbar() {
+	const { user, logout, isAdmin } = useAuthContext();
+
+	function getPages() {
+		if (isAdmin()) {
+			return pages.concat(adminPages);
+		} else {
+			return pages;
+		}
+	}
+
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
@@ -110,8 +124,14 @@ export default function Navbar() {
 			open={isMenuOpen}
 			onClose={handleMenuClose}
 		>
-			<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-			<MenuItem onClick={handleMenuClose}>My account</MenuItem>
+			<MenuItem
+				onClick={() => {
+					handleMenuClose();
+					logout();
+				}}
+			>
+				Logout
+			</MenuItem>
 		</Menu>
 	);
 
@@ -169,7 +189,10 @@ export default function Navbar() {
 
 	return (
 		<Box sx={{ flexGrow: 1 }}>
-			<AppBar position="static">
+			<AppBar
+				sx={{ backgroundColor: "#3C486B", color: "#F0F0F0" }}
+				position="static"
+			>
 				<Toolbar>
 					<IconButton
 						size="large"
@@ -190,11 +213,11 @@ export default function Navbar() {
 						U MUHI
 					</Typography>
 					<Box sx={{ display: "flex", ml: 2 }}>
-						{pages.map((page) => (
+						{getPages().map((page) => (
 							<Button
 								component={NavLink}
 								to={page.link}
-								sx={{ my: 2, color: "white" }}
+								sx={{ my: 2, color: "#F0F0F0" }}
 								key={page.title}
 							>
 								{page.title}
@@ -230,17 +253,24 @@ export default function Navbar() {
 								<NotificationsIcon />
 							</Badge>
 						</IconButton>
-						<IconButton
-							size="large"
-							edge="end"
-							aria-label="account of current user"
-							aria-controls={menuId}
-							aria-haspopup="true"
-							onClick={handleProfileMenuOpen}
-							color="inherit"
-						>
-							<AccountCircle />
-						</IconButton>
+
+						{!user ? (
+							<Button component={Link} to="/auth" sx={{ color: "#F0F0F0" }}>
+								Login
+							</Button>
+						) : (
+							<IconButton
+								size="large"
+								edge="end"
+								aria-label="account of current user"
+								aria-controls={menuId}
+								aria-haspopup="true"
+								onClick={handleProfileMenuOpen}
+								color="inherit"
+							>
+								<AccountCircle />
+							</IconButton>
+						)}
 					</Box>
 					<Box sx={{ display: { xs: "flex", md: "none" } }}>
 						<IconButton
