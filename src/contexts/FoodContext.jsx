@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useReducer, useState } from "react";
 import { ACTIONS, API, LIMIT } from "../utils/consts";
 import { notify } from "../components/Toastify";
 import { useLocation } from "react-router-dom";
@@ -31,6 +31,7 @@ function reducer(state, action) {
 
 const FoodContext = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, init);
+	const [page, setPage] = useState(1);
 
 	async function getDishes() {
 		try {
@@ -99,6 +100,8 @@ const FoodContext = ({ children }) => {
 		dishes: state.dishes,
 		dish: state.dish,
 		pageTotalCount: state.pageTotalCount,
+		page,
+		setPage,
 		addDish,
 		getDishes,
 		deleteDish,
