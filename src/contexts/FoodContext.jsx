@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { createContext, useContext, useReducer, useState } from "react";
 import { ACTIONS, API, LIMIT } from "../utils/consts";
 import { notify } from "../components/Toastify";
-import { useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 const foodContext = createContext();
 
@@ -30,8 +30,9 @@ function reducer(state, action) {
 }
 
 const FoodContext = ({ children }) => {
+	const [searchParams, setSearchParams] = useSearchParams();
 	const [state, dispatch] = useReducer(reducer, init);
-	const [page, setPage] = useState(1);
+	const [page, setPage] = useState(+searchParams.get("_page") || 1);
 
 	async function getDishes() {
 		try {

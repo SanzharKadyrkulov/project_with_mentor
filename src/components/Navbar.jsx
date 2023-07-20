@@ -13,7 +13,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { Button } from "@mui/material";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 import LiveSearch from "./LiveSearch";
 
@@ -33,7 +33,7 @@ const adminPages = [
 
 export default function Navbar() {
 	const { user, logout, isAdmin } = useAuthContext();
-
+	const location = useLocation();
 	function getPages() {
 		if (isAdmin()) {
 			return pages.concat(adminPages);
@@ -182,7 +182,9 @@ export default function Navbar() {
 							</Button>
 						))}
 					</Box>
-					<LiveSearch />
+
+					{location.pathname === "/menu" && <LiveSearch />}
+
 					<Box sx={{ flexGrow: 1 }} />
 					<Box sx={{ display: { xs: "none", md: "flex" } }}>
 						<IconButton

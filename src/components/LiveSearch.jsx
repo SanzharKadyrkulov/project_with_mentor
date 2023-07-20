@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import InputBase from "@mui/material/InputBase";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
+import { useSearchParams } from "react-router-dom";
+import { useFoodContext } from "../contexts/FoodContext";
 
 const Search = styled("div")(({ theme }) => ({
 	position: "relative",
@@ -44,12 +46,27 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const LiveSearch = () => {
+	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchVal, setSearchVal] = useState(searchParams.get("q") || "");
+	const { setPage } = useFoodContext();
+
+	useEffect(() => {
+		const currentParams = Object.fromEntries([...searchParams]);
+		setSearchParams({
+			...currentParams,
+			q: searchVal,
+		});
+		setPage(1);
+	}, [searchVal]);
+
 	return (
 		<Search>
 			<SearchIconWrapper>
 				<SearchIcon />
 			</SearchIconWrapper>
 			<StyledInputBase
+				value={searchVal}
+				onChange={(e) => setSearchVal(e.target.value)}
 				placeholder="Search…"
 				inputProps={{ "aria-label": "search" }}
 			/>

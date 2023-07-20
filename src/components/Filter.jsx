@@ -3,11 +3,14 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { useSearchParams } from "react-router-dom";
 import { useFoodContext } from "../contexts/FoodContext";
+import { LIMIT } from "../utils/consts";
 
 export default function Filter() {
 	const { setPage } = useFoodContext();
-	const [category, setCategory] = React.useState("all");
 	const [searchParams, setSearchParams] = useSearchParams();
+	const [category, setCategory] = React.useState(
+		searchParams.get("category") || "all"
+	);
 
 	const handleChange = (_, value) => {
 		value && setCategory(value);
@@ -17,11 +20,11 @@ export default function Filter() {
 		const currentParams = Object.fromEntries([...searchParams]);
 
 		if (category === "all") {
-			const { _limit, _page, q } = currentParams;
+			const { _page, q } = currentParams;
 			setSearchParams({
-				_limit,
-				_page,
-				// q,
+				_limit: LIMIT,
+				_page: _page || 1,
+				q: q || "",
 			});
 		} else {
 			setSearchParams({
