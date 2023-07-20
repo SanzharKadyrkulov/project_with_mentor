@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { createContext, useContext, useReducer } from "react";
-import { ACTIONS, API } from "../utils/consts";
+import { ACTIONS, API, LIMIT } from "../utils/consts";
 import { notify } from "../components/Toastify";
 import { useLocation } from "react-router-dom";
 
@@ -13,6 +13,7 @@ export function useFoodContext() {
 const init = {
 	dishes: [],
 	dish: null,
+	pageTotalCount: 1,
 };
 
 function reducer(state, action) {
@@ -21,6 +22,8 @@ function reducer(state, action) {
 			return { ...state, dishes: action.payload };
 		case ACTIONS.dish:
 			return { ...state, dish: action.payload };
+		case ACTIONS.pageTotalCount:
+			return { ...state, pageTotalCount: action.payload };
 		default:
 			return state;
 	}
@@ -31,7 +34,17 @@ const FoodContext = ({ children }) => {
 
 	async function getDishes() {
 		try {
-			const { data } = await axios.get(`${API}${window.location.search}`);
+			const { data, headers } = await axios.get(
+				`${API}${window.location.search}`
+			);
+
+			const totalCount = Math.ceil(headers["x-total-count"] / LIMIT);
+
+			dispatch({
+				type: ACTIONS.pageTotalCount,
+				payload: totalCount,
+			});
+
 			dispatch({
 				type: ACTIONS.dishes,
 				payload: data,
@@ -85,6 +98,7 @@ const FoodContext = ({ children }) => {
 	const value = {
 		dishes: state.dishes,
 		dish: state.dish,
+		pageTotalCount: state.pageTotalCount,
 		addDish,
 		getDishes,
 		deleteDish,

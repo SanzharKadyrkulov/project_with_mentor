@@ -8,7 +8,7 @@ import { useFoodContext } from "../contexts/FoodContext";
 
 const MenuPage = () => {
 	const [searchParams, setSearchParams] = useSearchParams();
-	const { getDishes } = useFoodContext();
+	const { getDishes, pageTotalCount } = useFoodContext();
 
 	useEffect(() => {
 		getDishes();
@@ -28,7 +28,7 @@ const MenuPage = () => {
 			<FoodList />
 			<Box sx={{ maxWidth: "max-content", margin: "30px auto" }}>
 				<Pagination
-					count={10}
+					count={pageTotalCount}
 					page={page}
 					onChange={(_, val) => setPage(val)}
 					color="primary"
