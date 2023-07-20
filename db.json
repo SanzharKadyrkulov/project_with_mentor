@@ -1,12 +1,100 @@
 {
-  "menu": [
-    {
-      "title": "fgyjhk",
-      "composition": "hfgyjhkl",
-      "price": 6569,
-      "image": "tdyfugihjo",
-      "category": "soup",
-      "id": 2
-    }
-  ]
+	"menu": [
+		{
+			"id": 1,
+			"title": "Caesar Salad",
+			"composition": "Romaine lettuce, croutons, Parmesan cheese, Caesar dressing",
+			"price": 8.99,
+			"image": "caesar_salad.jpg",
+			"category": "salad"
+		},
+		{
+			"id": 2,
+			"title": "Tomato Soup",
+			"composition": "Tomatoes, onions, garlic, vegetable broth",
+			"price": 5.49,
+			"image": "tomato_soup.jpg",
+			"category": "soup"
+		},
+		{
+			"id": 3,
+			"title": "Cheeseburger",
+			"composition": "Beef patty, cheddar cheese, lettuce, tomato, pickles, bun",
+			"price": 10.99,
+			"image": "cheeseburger.jpg",
+			"category": "fastFood"
+		},
+		{
+			"id": 4,
+			"title": "Spaghetti Bolognese",
+			"composition": "Pasta, Bolognese sauce, ground beef, tomatoes",
+			"price": 12.99,
+			"image": "spaghetti_bolognese.jpg",
+			"category": "mainDish"
+		},
+		{
+			"id": 5,
+			"title": "Orange Juice",
+			"composition": "Freshly squeezed oranges",
+			"price": 2.99,
+			"image": "orange_juice.jpg",
+			"category": "drink"
+		},
+		{
+			"id": 6,
+			"title": "Chocolate Brownie",
+			"composition": "Chocolate, butter, sugar, eggs, flour",
+			"price": 4.99,
+			"image": "chocolate_brownie.jpg",
+			"category": "dessert"
+		},
+		{
+			"id": 7,
+			"title": "Greek Salad",
+			"composition": "Cucumbers, tomatoes, olives, feta cheese, olive oil",
+			"price": 9.49,
+			"image": "greek_salad.jpg",
+			"category": "salad"
+		},
+		{
+			"id": 8,
+			"title": "Minestrone Soup",
+			"composition": "Mixed vegetables, beans, pasta, vegetable broth",
+			"price": 6.49,
+			"image": "minestrone_soup.jpg",
+			"category": "soup"
+		},
+		{
+			"id": 9,
+			"title": "Chicken Nuggets",
+			"composition": "Chicken breast, breadcrumbs, spices",
+			"price": 7.99,
+			"image": "chicken_nuggets.jpg",
+			"category": "fastFood"
+		},
+		{
+			"id": 10,
+			"title": "Grilled Salmon",
+			"composition": "Salmon fillet, lemon, dill, olive oil",
+			"price": 14.99,
+			"image": "grilled_salmon.jpg",
+			"category": "mainDish"
+		},
+		{
+			"id": 11,
+			"title": "Iced Tea",
+			"composition": "Tea, ice, lemon slices",
+			"price": 2.49,
+			"image": "iced_tea.jpg",
+			"category": "drink"
+		},
+		{
+			"id": 12,
+			"title": "Tiramisu",
+			"composition": "Ladyfingers, coffee, mascarpone cheese, cocoa",
+			"price": 6.99,
+			"image": "tiramisu.jpg",
+			"category": "dessert"
+		}
+	]
 }

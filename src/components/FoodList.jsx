@@ -10,7 +10,6 @@ const FoodList = () => {
 		getDishes();
 	}, []);
 
-	console.log(dishes);
 	return (
 		<Box
 			sx={{

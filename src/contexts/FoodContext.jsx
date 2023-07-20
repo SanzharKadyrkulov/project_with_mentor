@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { createContext, useContext, useReducer } from "react";
 import { ACTIONS, API } from "../utils/consts";
 import { notify } from "../components/Toastify";
+import { useLocation } from "react-router-dom";
 
 const foodContext = createContext();
 
@@ -30,7 +31,7 @@ const FoodContext = ({ children }) => {
 
 	async function getDishes() {
 		try {
-			const { data } = await axios.get(API);
+			const { data } = await axios.get(`${API}${window.location.search}`);
 			dispatch({
 				type: ACTIONS.dishes,
 				payload: data,

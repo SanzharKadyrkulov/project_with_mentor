@@ -6,3 +6,5 @@ export const ACTIONS = {
 };
 
 export const ADMINS = ["kadyrkulov.980@gmail.com"];
+
+export const LIMIT = 5;
