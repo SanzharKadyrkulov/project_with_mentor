@@ -11,7 +11,6 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Button, Menu, MenuItem } from "@mui/material";
@@ -20,6 +19,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useFoodContext } from "../contexts/FoodContext";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
+import { useCartContext } from "../contexts/CartContext";
 
 const ExpandMore = styled((props) => {
 	const { expand, ...other } = props;
@@ -35,6 +37,7 @@ const ExpandMore = styled((props) => {
 export default function FoodItem({ item }) {
 	const { deleteDish } = useFoodContext();
 	const { isAdmin } = useAuthContext();
+	const { addDishToCart, isAlreadyInCart } = useCartContext();
 	const navigate = useNavigate();
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -115,9 +118,17 @@ export default function FoodItem({ item }) {
 				<IconButton aria-label="add to favorites">
 					<FavoriteIcon />
 				</IconButton>
-				<IconButton aria-label="share">
-					<ShareIcon />
-				</IconButton>
+
+				{isAlreadyInCart(item.id) ? (
+					<IconButton onClick={() => addDishToCart(item)}>
+						<RemoveShoppingCartIcon color="error" />
+					</IconButton>
+				) : (
+					<IconButton onClick={() => addDishToCart(item)}>
+						<AddShoppingCartIcon color="info" />
+					</IconButton>
+				)}
+
 				<ExpandMore
 					expand={expanded}
 					onClick={handleExpandClick}

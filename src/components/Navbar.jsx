@@ -16,6 +16,7 @@ import { Button } from "@mui/material";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 import LiveSearch from "./LiveSearch";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const pages = [
 	{
@@ -188,21 +189,13 @@ export default function Navbar() {
 					<Box sx={{ flexGrow: 1 }} />
 					<Box sx={{ display: { xs: "none", md: "flex" } }}>
 						<IconButton
+							component={Link}
+							to="/cart"
 							size="large"
-							aria-label="show 4 new mails"
 							color="inherit"
 						>
-							<Badge badgeContent={4} color="error">
-								<MailIcon />
-							</Badge>
-						</IconButton>
-						<IconButton
-							size="large"
-							aria-label="show 17 new notifications"
-							color="inherit"
-						>
-							<Badge badgeContent={17} color="error">
-								<NotificationsIcon />
+							<Badge badgeContent={0} color="error">
+								<ShoppingCartIcon />
 							</Badge>
 						</IconButton>
 

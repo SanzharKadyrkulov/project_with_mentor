@@ -9,15 +9,17 @@ import EditFoodPage from "../pages/EditFoodPage";
 import AuthPage from "../pages/AuthPage";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminProtectedRoute from "./AdminProtectedRoute";
+import CartPage from "../pages/CartPage";
 
 const MainRoutes = () => {
 	return (
 		<Routes>
 			<Route element={<MainLayout />}>
 				<Route path="/" element={<HomePage />} />
+				<Route path="/menu" element={<MenuPage />} />
 
 				<Route element={<ProtectedRoute />}>
-					<Route path="/menu" element={<MenuPage />} />
+					<Route path="/cart" element={<CartPage />} />
 				</Route>
 
 				<Route element={<AdminProtectedRoute />}>
