@@ -42,10 +42,60 @@ const CartContext = ({ children }) => {
 		notify("Successfully added to cart!");
 	}
 
+	function deleteDishFromCart(id) {
+		const data = getDataFromLS();
+		data.dishes = data.dishes.filter((item) => item.id !== id);
+
+		data.totalPrice = data.dishes.reduce((acc, item) => acc + item.subPrice, 0);
+
+		localStorage.setItem("cart", JSON.stringify(data));
+		getCart();
+		notify("Successfully removed from cart!");
+	}
+
 	function isAlreadyInCart(id) {
 		const data = getDataFromLS();
 		const isInCart = data.dishes.some((item) => item.id === id);
 		return isInCart;
+	}
+
+	function increaseCount(id) {
+		const data = getDataFromLS();
+
+		data.dishes = data.dishes.map((item) => {
+			if (item.id === id) {
+				item.count += 1;
+				item.subPrice += item.price;
+			}
+			return item;
+		});
+
+		data.totalPrice = data.dishes.reduce((acc, item) => acc + item.subPrice, 0);
+
+		localStorage.setItem("cart", JSON.stringify(data));
+		getCart();
+	}
+
+	function decreaseCount(id) {
+		const data = getDataFromLS();
+
+		data.dishes = data.dishes.map((item) => {
+			if (item.id === id) {
+				item.count -= 1;
+				item.subPrice -= item.price;
+			}
+			return item;
+		});
+
+		data.totalPrice = data.dishes.reduce((acc, item) => acc + item.subPrice, 0);
+
+		localStorage.setItem("cart", JSON.stringify(data));
+		getCart();
+	}
+
+	function clearCart() {
+		localStorage.removeItem("cart");
+		getCart();
 	}
 
 	const value = {
@@ -53,6 +103,10 @@ const CartContext = ({ children }) => {
 		getCart,
 		addDishToCart,
 		isAlreadyInCart,
+		deleteDishFromCart,
+		increaseCount,
+		decreaseCount,
+		clearCart,
 	};
 	return <cartContext.Provider value={value}>{children}</cartContext.Provider>;
 };

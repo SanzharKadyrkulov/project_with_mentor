@@ -10,6 +10,7 @@ import AuthPage from "../pages/AuthPage";
 import ProtectedRoute from "./ProtectedRoute";
 import AdminProtectedRoute from "./AdminProtectedRoute";
 import CartPage from "../pages/CartPage";
+import SuccessPage from "../pages/SuccessPage";
 
 const MainRoutes = () => {
 	return (
@@ -29,6 +30,7 @@ const MainRoutes = () => {
 			</Route>
 
 			<Route path="/auth" element={<AuthPage />} />
+			<Route path="/success" element={<SuccessPage />} />
 
 			<Route path="*" element={<NotFoundPage />} />
 		</Routes>

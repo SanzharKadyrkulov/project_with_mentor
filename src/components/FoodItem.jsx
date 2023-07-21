@@ -37,7 +37,8 @@ const ExpandMore = styled((props) => {
 export default function FoodItem({ item }) {
 	const { deleteDish } = useFoodContext();
 	const { isAdmin } = useAuthContext();
-	const { addDishToCart, isAlreadyInCart } = useCartContext();
+	const { addDishToCart, isAlreadyInCart, deleteDishFromCart } =
+		useCartContext();
 	const navigate = useNavigate();
 
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -120,7 +121,7 @@ export default function FoodItem({ item }) {
 				</IconButton>
 
 				{isAlreadyInCart(item.id) ? (
-					<IconButton onClick={() => addDishToCart(item)}>
+					<IconButton onClick={() => deleteDishFromCart(item.id)}>
 						<RemoveShoppingCartIcon color="error" />
 					</IconButton>
 				) : (

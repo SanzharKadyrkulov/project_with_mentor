@@ -17,6 +17,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 import LiveSearch from "./LiveSearch";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import { useCartContext } from "../contexts/CartContext";
 
 const pages = [
 	{
@@ -34,6 +35,10 @@ const adminPages = [
 
 export default function Navbar() {
 	const { user, logout, isAdmin } = useAuthContext();
+	const { cart, getCart } = useCartContext();
+	React.useEffect(() => {
+		getCart();
+	}, []);
 	const location = useLocation();
 	function getPages() {
 		if (isAdmin()) {
@@ -147,9 +152,12 @@ export default function Navbar() {
 	);
 
 	return (
-		<Box sx={{ flexGrow: 1 }}>
+		<Box sx={{ flexGrow: 1, position: "sticky", top: 0, zIndex: 10 }}>
 			<AppBar
-				sx={{ backgroundColor: "#3C486B", color: "#F0F0F0" }}
+				sx={{
+					backgroundColor: "#3C486B",
+					color: "#F0F0F0",
+				}}
 				position="static"
 			>
 				<Toolbar>
@@ -194,7 +202,7 @@ export default function Navbar() {
 							size="large"
 							color="inherit"
 						>
-							<Badge badgeContent={0} color="error">
+							<Badge badgeContent={cart.dishes.length} color="error">
 								<ShoppingCartIcon />
 							</Badge>
 						</IconButton>

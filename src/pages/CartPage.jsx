@@ -6,20 +6,37 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-
-function createData(name, calories, fat, carbs, protein) {
-	return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-	createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-	createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-	createData("Eclair", 262, 16.0, 24, 6.0),
-	createData("Cupcake", 305, 3.7, 67, 4.3),
-	createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+import { useCartContext } from "../contexts/CartContext";
+import { Box, Button, IconButton, Typography } from "@mui/material";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
+import { Link } from "react-router-dom";
 
 export default function CartPage() {
+	const { cart, getCart, increaseCount, decreaseCount, deleteDishFromCart } =
+		useCartContext();
+
+	React.useEffect(() => {
+		getCart();
+	}, []);
+
+	if (cart.dishes.length < 1) {
+		return (
+			<Box
+				sx={{
+					maxWidth: "max-content",
+					margin: "100px auto",
+					textAlign: "center",
+				}}
+			>
+				<Typography variant="h4">Cart is empty</Typography>
+				<Button component={Link} to="/menu">
+					Go to menu
+				</Button>
+			</Box>
+		);
+	}
+
 	return (
 		<TableContainer component={Paper}>
 			<Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -33,22 +50,58 @@ export default function CartPage() {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{rows.map((row) => (
+					{cart.dishes.map((item) => (
 						<TableRow
-							key={row.name}
+							key={item.id}
 							sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
 						>
 							<TableCell component="th" scope="row">
-								{row.name}
+								{item.title}
 							</TableCell>
-							<TableCell align="right">{row.calories}</TableCell>
-							<TableCell align="right">{row.fat}</TableCell>
-							<TableCell align="right">{row.carbs}</TableCell>
-							<TableCell align="right">{row.protein}</TableCell>
+							<TableCell align="right">
+								<img width={30} src={item.image} alt="" />
+							</TableCell>
+							<TableCell align="right">{item.category}</TableCell>
+							<TableCell align="right">{item.price}</TableCell>
+							<TableCell align="right">{item.subPrice.toFixed(2)}</TableCell>
+							<TableCell sx={{ display: "flex", alignItems: "center" }}>
+								<IconButton
+									onClick={() => {
+										if (item.count <= 1) {
+											deleteDishFromCart(item.id);
+										} else {
+											decreaseCount(item.id);
+										}
+									}}
+								>
+									<RemoveIcon color="primary" />
+								</IconButton>
+								<Typography component={"span"} variant="h6">
+									{item.count}
+								</Typography>
+								<IconButton onClick={() => increaseCount(item.id)}>
+									<AddIcon color="primary" />
+								</IconButton>
+							</TableCell>
 						</TableRow>
 					))}
 				</TableBody>
 			</Table>
+			<Box
+				sx={{
+					display: "flex",
+					justifyContent: "space-between",
+					alignItems: "center",
+					padding: "0 40px",
+				}}
+			>
+				<Typography variant="h4">
+					Total price: ${cart.totalPrice.toFixed(2)}
+				</Typography>
+				<Button component={Link} to="/success" variant="contained">
+					Order
+				</Button>
+			</Box>
 		</TableContainer>
 	);
 }
