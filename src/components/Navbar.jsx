@@ -223,7 +223,7 @@ export default function Navbar() {
 							>
 								<Avatar
 									sx={{ textTransform: "uppercase" }}
-									src={null}
+									src={user.photoURL}
 									alt={user.displayName}
 								>
 									{user.displayName && user.displayName.split(" ")[0][0]}
