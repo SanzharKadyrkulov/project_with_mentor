@@ -12,7 +12,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MailIcon from "@mui/icons-material/Mail";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { Button } from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { useAuthContext } from "../contexts/AuthContext";
 import LiveSearch from "./LiveSearch";
@@ -221,7 +221,16 @@ export default function Navbar() {
 								onClick={handleProfileMenuOpen}
 								color="inherit"
 							>
-								<AccountCircle />
+								<Avatar
+									sx={{ textTransform: "uppercase" }}
+									src={null}
+									alt={user.displayName}
+								>
+									{user.displayName && user.displayName.split(" ")[0][0]}
+									{user.displayName &&
+										user.displayName.includes(" ") &&
+										user.displayName.split(" ")[1][0]}
+								</Avatar>
 							</IconButton>
 						)}
 					</Box>

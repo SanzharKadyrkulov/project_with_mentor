@@ -48,7 +48,12 @@ export default function AuthPage() {
 		if (isLogin) {
 			login(data.get("email"), data.get("password"));
 		} else {
-			register(data.get("email"), data.get("password"));
+			register(
+				data.get("email"),
+				data.get("password"),
+				data.get("displayName"),
+				data.get("photoURL")
+			);
 		}
 	};
 
@@ -80,6 +85,28 @@ export default function AuthPage() {
 						noValidate
 						sx={{ mt: 1 }}
 					>
+						{!isLogin && (
+							<>
+								<TextField
+									margin="normal"
+									required
+									fullWidth
+									id="name"
+									label="Full name"
+									name="displayName"
+									autoFocus
+								/>
+								<TextField
+									margin="normal"
+									required
+									fullWidth
+									id="image"
+									label="Photo"
+									name="photoURL"
+								/>
+							</>
+						)}
+
 						<TextField
 							margin="normal"
 							required
