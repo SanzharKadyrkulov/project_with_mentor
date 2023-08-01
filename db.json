@@ -4,7 +4,7 @@
 			"id": 1,
 			"title": "Caesar Salad",
 			"composition": "Romaine lettuce, croutons, Parmesan cheese, Caesar dressing",
-			"price": 8.99,
+			"price": 8.9,
 			"image": "caesar_salad.jpg",
 			"category": "salad"
 		},
